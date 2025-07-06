@@ -27,41 +27,75 @@
   background-color: #c4c4c4;
   border-radius: 16px;
   margin-bottom: 2rem;
-  
-  // Placeholder para o banner - pode ser removido quando adicionar conteúdo
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666666;
-  font-size: 1.2rem;
-  
-  &::before {
-    content: '';
-    // Remove este conteúdo quando adicionar o banner real
-  }
 }
 
 // ===================================
-// MOVIE CARDS ROW
+// MOVIE CARDS ROW - CORRIGIDO PARA HORIZONTAL
 // ===================================
 .movie-cards-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: row;
   gap: 1.5rem;
   margin-bottom: 4rem;
+  width: 100%;
+  flex-wrap: nowrap;
 
   .movie-card {
-    width: 100%;
+    flex: 1;
     height: 180px;
     background-color: #666666;
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    min-width: 0; // Permite que os cards encolham igualmente
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
 
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
+  }
+
+  .movie-card img {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .movie-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .movie-info {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+
+  .movie-genre {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .movie-rating {
+    font-size: 0.9rem;
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+  }
+
+  .movie-session {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
   }
 }
 
@@ -172,13 +206,16 @@
     margin-bottom: 1.5rem;
   }
 
+  // Em tablets, manter 2 cards por linha
   .movie-cards-row {
-    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 3rem;
 
     .movie-card {
+      flex: 1 1 calc(50% - 0.5rem);
       height: 140px;
+      min-width: calc(50% - 0.5rem);
     }
   }
 
@@ -219,12 +256,15 @@
     border-radius: 12px;
   }
 
+  // Em mobile, cards em coluna vertical
   .movie-cards-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 1rem;
 
     .movie-card {
+      flex: none;
       height: 120px;
+      min-width: auto;
     }
   }
 
