@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    // Primary Colors
+    --primary-color: #dc2626;
+    --primary-hover: #b91c1c;
+    --primary-light: rgba(220, 38, 38, 0.1);
+    --primary-border: rbga(220, 38, 38, 0.2);
+
+    // Secondary Colors
+    --secondary-color: #1f2937;
+    --secondary-hover: #374151;
+
+    // Background Colors
+    --background-dark: #000000;
+    --background-light: #1f2937;
+    --background-card: #374151;
+    --background-overlay: rgba(0, 0, 0, 0.7);
+
+    // Text Colors
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-accent: #f3f4f6;
+
+    // Border Colors
+    --border-color: #374151;
+}
