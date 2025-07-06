@@ -1,0 +1,258 @@
+.home {
+  min-height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+// ===================================
+// MAIN CONTENT
+// ===================================
+.main-content {
+  padding: 2rem 0;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+}
+
+// ===================================
+// HERO BANNER
+// ===================================
+.hero-banner {
+  width: 100%;
+  height: 300px;
+  background-color: #c4c4c4;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  
+  // Placeholder para o banner - pode ser removido quando adicionar conteúdo
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  font-size: 1.2rem;
+  
+  &::before {
+    content: '';
+    // Remove este conteúdo quando adicionar o banner real
+  }
+}
+
+// ===================================
+// MOVIE CARDS ROW
+// ===================================
+.movie-cards-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+
+  .movie-card {
+    width: 100%;
+    height: 180px;
+    background-color: #666666;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+// ===================================
+// FOOTER
+// ===================================
+.footer {
+  padding: 3rem 0 2rem;
+  background-color: #000000;
+  margin-top: auto;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+  }
+
+  .footer-column {
+    .footer-title {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: 0.75rem;
+
+        a {
+          color: #cccccc;
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 400;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// RESPONSIVE DESIGN
+// ===================================
+@media (max-width: 1024px) {
+  .header {
+    .container {
+      padding: 0 1.5rem;
+    }
+
+    .nav-left {
+      gap: 1.5rem;
+    }
+  }
+
+  .main-content .container {
+    padding: 0 1.5rem;
+  }
+
+  .footer .container {
+    padding: 0 1.5rem;
+  }
+
+  .footer-columns {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    .container {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    .nav-left {
+      gap: 1rem;
+    }
+
+    .nav-right .search-container {
+      font-size: 0.9rem;
+    }
+  }
+
+  .main-content .container {
+    padding: 0 1rem;
+  }
+
+  .hero-banner {
+    height: 200px;
+    margin-bottom: 1.5rem;
+  }
+
+  .movie-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+
+    .movie-card {
+      height: 140px;
+    }
+  }
+
+  .footer {
+    padding: 2rem 0 1.5rem;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .footer-columns {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    .nav-left {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+
+      .nav-link {
+        font-size: 0.9rem;
+      }
+    }
+
+    .nav-right .search-container {
+      font-size: 0.8rem;
+      gap: 0.4rem;
+    }
+  }
+
+  .hero-banner {
+    height: 150px;
+    border-radius: 12px;
+  }
+
+  .movie-cards-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    .movie-card {
+      height: 120px;
+    }
+  }
+
+  .footer {
+    .footer-title {
+      font-size: 0.9rem;
+    }
+
+    .footer-links li a {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// ===================================
+// ACCESSIBILITY
+// ===================================
+.nav-link:focus,
+.movie-card:focus,
+.footer-links a:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movie-card,
+  .nav-link,
+  .footer-links a {
+    transition: none;
+  }
+}
