@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss'
 })
@@ -14,22 +14,30 @@ export class LoginModal {
   @Output() closeModal = new EventEmitter<void>();
   @Output() loginSuccess = new EventEmitter<any>();
 
-  loginForm: any;
-
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
+  email: string = '';
+  password: string = '';
 
   onClose() {
     this.closeModal.emit();
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.loginSuccess.emit(this.loginForm.value)
+  onBackdropClick(event: Event) {
+    if (event.target === event.currentTarget) {
+      this.onClose();
     }
+  }
+
+  onSubmit() {
+    if (this.email && this.password) {
+      console.log('Login attemp:', { email: this.email, password: this.password });
+      this.loginSuccess.emit({ email: this.email, password: this.password });
+      this.email = '';
+      this.password = '';
+    }
+  }
+
+  onRegisterClick(event: Event) {
+    event.preventDefault();
+    alert('Funcionalidade ainda em desenvolvimento!');
   }
 }

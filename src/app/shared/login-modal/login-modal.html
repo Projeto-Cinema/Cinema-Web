@@ -1,5 +1,11 @@
-<div class="login-modal" id="loginModal">
-  <div class="login-content">
+<div
+    class="login-modal"
+    [class.active]="isOpen"
+    *ngIf="isOpen"
+    (click)="onBackdropClick($event)"
+  >
+
+  <div class="login-content" (click)="$event.stopPropagation()">
     <button class="close-btn" onclick="onClose()">x</button>
 
     <div class="login-header">
@@ -10,19 +16,31 @@
     <form class="login-form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">E-mail</label>
-        <input type="email" id="email" placeholder="Digite seu e-mail" required>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          required>
       </div>
 
       <div class="form-group">
         <label for="password">Senha</label>
-        <input type="password" id="password" placeholder="Digite sua senha" required>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Digite sua senha"
+          required>
       </div>
 
       <button type="submit" class="login-btn">Entrar</button>
     </form>
 
     <div class="register-link">
-      <p>Não tem conta? <a href="#" onclick="alert('Ainda em desenvolvimento')">Crie uma agora</a></p>
+      <p>Não tem conta? <a href="#" onclick="onRegisterClick($event)">Crie uma agora</a></p>
     </div>
   </div>
 </div>
