@@ -1,15 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-modal',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss'
 })
 export class LoginModal {
   @Input() isOpen: boolean = false;
-  @Input() closeModal = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
   @Output() loginSuccess = new EventEmitter<any>();
 
   loginForm: any;

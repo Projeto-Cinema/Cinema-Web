@@ -1,13 +1,13 @@
 <div class="login-modal" id="loginModal">
   <div class="login-content">
-    <button class="close-btn" onclick="toggleLoginModal()"></button>
+    <button class="close-btn" onclick="onClose()">x</button>
 
     <div class="login-header">
       <h2>ACESSE O CINEMA BOM</h2>
       <p>Faça login para acessar seu perfil</p>
     </div>
 
-    <form class="login-form">
+    <form class="login-form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">E-mail</label>
         <input type="email" id="email" placeholder="Digite seu e-mail" required>
