@@ -11,3 +11,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), provideClientHydration(withEventReplay())
   ]
 };
+
+export const AppConfig = {
+  apiUrl: 'http://localhost:8000/api/v1',
+  endpoints: {
+    users: '/Users/'
+  }
+}
