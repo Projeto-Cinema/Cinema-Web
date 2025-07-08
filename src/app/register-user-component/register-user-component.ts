@@ -12,6 +12,7 @@ export class RegisterUserComponent {
   @Input() isOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() loginClick = new EventEmitter<void>();
+  @Output() registerSuccess = new EventEmitter<any>();
 
   nome: string = '';
   email: string = '';
@@ -36,14 +37,19 @@ export class RegisterUserComponent {
       return;
     }
 
-    console.log('Dados do registro:', {
+    const dadosRegistro = {
       nome: this.nome,
       email: this.email,
       dataNascimento: this.dataNascimento,
       cpf: this.cpf,
       telefone: this.telefone,
       senha: this.senha
-    });
+    };
+
+    console.log(dadosRegistro);
+
+    this.registerSuccess.emit(dadosRegistro);
+    alert('Funcionalidade de registro ainda não implementada. Dados registrados no console.');
   }
 
   onLoginClick(event: Event) {

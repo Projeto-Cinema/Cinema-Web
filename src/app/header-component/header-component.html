@@ -21,6 +21,14 @@
 
 <app-login-modal
   [isOpen]="isLoginModalOpen"
-  (closeModal)="closeLoginModal()"
+  (close)="closeLoginModal()"
+  (registerClick)="switchToRegister()"
   (loginSuccess)="onLoginSuccess($event)">
 </app-login-modal>
+
+<app-register-user-component
+  [isOpen]="isRegisterModalOpen"
+  (close)="closeRegisterModal()"
+  (loginClick)="switchToLogin()"
+  (registerSuccess)="onRegisterSuccess($event)"
+></app-register-user-component>
