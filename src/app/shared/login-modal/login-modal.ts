@@ -11,14 +11,15 @@ import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 })
 export class LoginModal {
   @Input() isOpen: boolean = false;
-  @Output() closeModal = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
+  @Output() registerClick = new EventEmitter<void>();
   @Output() loginSuccess = new EventEmitter<any>();
 
   email: string = '';
   password: string = '';
 
   onClose() {
-    this.closeModal.emit();
+    this.close.emit();
   }
 
   onBackdropClick(event: Event) {
@@ -38,6 +39,6 @@ export class LoginModal {
 
   onRegisterClick(event: Event) {
     event.preventDefault();
-    alert('Funcionalidade ainda em desenvolvimento!');
+    this.registerClick.emit();
   }
 }
