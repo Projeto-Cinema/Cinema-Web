@@ -1,0 +1,92 @@
+<div
+    class="register-user-component"
+    [class.active]="isOpen"
+    *ngIf="isOpen"
+    (click)="onBackdropClick($event)"
+>
+    <div class="register-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="onClose()"></button>
+
+        <div class="register-header">
+            <h2>CRIAR CONTA NO CINEMA BOM</h2>
+            <p>Preenche os dados para criar sua conta</p>
+        </div>
+
+        <form class="register-form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input 
+                    type="text"
+                    id="nome"
+                    [(ngModel)]="nome"
+                    name="nome"
+                    placeholder="Digite seu nome completo"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input 
+                    type="email"
+                    id="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    placeholder="Digite seu e-mail"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="dataNascimento">Date de Nascimento</label>
+                <input 
+                    type="date"
+                    id="dataNascimento"
+                    [(ngModel)]="dataNascimento"
+                    name="dataNascimento"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input 
+                    type="text"
+                    id="cpf"
+                    [(ngModel)]="cpf"
+                    name="cpf"
+                    placeholder="000.000.000-00"
+                    maxlength="14"
+                    (input)="formatCPF($event)"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input 
+                    type="tel"
+                    id="telefone"
+                    [(ngModel)]="telefone"
+                    name="telefone"
+                    placeholder="(00) 00000-0000"
+                    maxlength="15"
+                    (input)="formatTelefone($event)"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input 
+                    type="password"
+                    id="senha"
+                    [(ngModel)]="senha"
+                    name="senha"
+                    placeholder="Digite sua senha"
+                    required>
+            </div>
+
+            <button type="submit" class="register-btn">Criar Conta</button>
+        </form>
+
+        <div class="login-link">
+            <p>Já tem conta? <a href="#" (click)="onLoginClick($event)">Faça login</a></p>
+        </div>
+    </div>
+</div>
