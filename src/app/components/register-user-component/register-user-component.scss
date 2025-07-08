@@ -67,6 +67,16 @@
     margin: 0;
 }
 
+.error-message {
+    background-color: #ff4444;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
 .register-form {
     display: flex;
     flex-direction: column;
@@ -94,6 +104,10 @@
     font-size: 14px;
 }
 
+.form-group input::placeholder {
+    color: #999;
+}
+
 .form-group input:focus {
     outline: none;
     border-radius: #ff6b35;
@@ -117,6 +131,18 @@
     background: linear-gradient(135deg, #f7931e, #ff6b35);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+}
+
+.register-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.register-btn:disabled:hover {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    transform: none;
 }
 
 .login-link {
