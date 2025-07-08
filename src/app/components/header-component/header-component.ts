@@ -5,6 +5,7 @@ import { RegisterUserComponent } from "../register-user-component/register-user-
 
 @Component({
   selector: 'app-header-component',
+  standalone: true,
   imports: [LoginModal, CommonModule, RegisterUserComponent],
   templateUrl: './header-component.html',
   styleUrl: './header-component.scss'

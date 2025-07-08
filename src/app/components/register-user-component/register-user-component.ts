@@ -5,6 +5,7 @@ import { User, UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-register-user-component',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register-user-component.html',
   styleUrl: './register-user-component.scss'
