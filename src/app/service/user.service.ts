@@ -76,4 +76,12 @@ export class UserService {
     cleanTelefone(telefone: string): string {
         return telefone.replace(/\D/g, '');
     }
+
+    getUserProfile(): Observable<User> {
+        return this.http.get<User>(`${this.apiUrl}/users/me`);
+    }
+
+    updateUserProfile(userData: Partial<User>): Observable<User> {
+        return this.http.put<User>(`${this.apiUrl}/users/me`, userData);
+    }
 }
