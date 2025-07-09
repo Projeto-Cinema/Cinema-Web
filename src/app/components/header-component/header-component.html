@@ -12,8 +12,18 @@
         <span class="search-text">Encontre um filme</span>
       </div>
 
-      <div class="user-container" (click)="openLoginModal($event)">
-        <i class="user-icon">👤</i>
+      <div class="user-section">
+        <div *ngIf="!currentUser; else loggedInTemplate" class="user-container" (click)="openLoginModal($event)">
+          <i class="user-icon">👤</i>
+        </div>
+
+        <ng-template #loggedInTemplate>
+          <div class="user-container logged-in">
+            <i class="user-icon">👤</i>
+            <span class="user-name">Olá, {{ currentUser?.nome }}</span>
+            <button class="logout-btn" (click)="logout()">Sair</button>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

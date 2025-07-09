@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { UserLogin, UserService } from '../../../service/user.service';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -22,7 +23,10 @@ export class LoginModal {
   isLoading: boolean = false;
   errorMessage: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   onClose() {
     this.errorMessage = '';
@@ -67,11 +71,9 @@ export class LoginModal {
       next: (response) => {
         console.log('Login com sucesso:', response);
 
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('token_type', response.token_type);
+        this.authService.handleLogin(response.access_token);
 
         this.loginSuccess.emit(response);
-
         this.onClose();
       },
       error: (error) => {

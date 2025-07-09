@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginModal } from "../shared/login-modal/login-modal";
 import { CommonModule } from '@angular/common';
 import { RegisterUserComponent } from "../register-user-component/register-user-component";
+import { AuthService, AuthUser } from '../../service/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header-component',
@@ -10,9 +12,14 @@ import { RegisterUserComponent } from "../register-user-component/register-user-
   templateUrl: './header-component.html',
   styleUrl: './header-component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy{
   isLoginModalOpen: boolean = false;
   isRegisterModalOpen: boolean = false;
+
+  currentUser: AuthUser | null = null;
+  private authSubscription!: Subscription;
+
+  constructor(private authService: AuthService) {}
 
   openLoginModal(event: Event) {
     event.preventDefault();
@@ -25,6 +32,10 @@ export class HeaderComponent {
       this.isRegisterModalOpen = false;
       console.log('isLoginMOdalOpen:', this.isLoginModalOpen);
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   closeLoginModal() {
@@ -58,5 +69,16 @@ export class HeaderComponent {
   switchToLogin() {
     this.isRegisterModalOpen = false;
     this.isLoginModalOpen = true;
+  }
+
+  ngOnInit(): void {
+    this.authSubscription = this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }
