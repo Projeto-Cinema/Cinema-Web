@@ -18,10 +18,12 @@
         </div>
 
         <ng-template #loggedInTemplate>
-          <div class="user-container logged-in">
+          <div class="user-container logged-in relative" (click)="toggleUserMenu($event)">
             <i class="user-icon">👤</i>
             <span class="user-name">Olá, {{ currentUser?.nome }}</span>
             <button class="logout-btn" (click)="logout()">Sair</button>
+
+            <app-user-menu-component [isOpen]="isUserMenuOpen"></app-user-menu-component>
           </div>
         </ng-template>
       </div>
