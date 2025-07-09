@@ -13,6 +13,10 @@
       <p>Faça login para acessar seu perfil</p>
     </div>
 
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <form class="login-form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">E-mail</label>
@@ -36,7 +40,14 @@
           required>
       </div>
 
-      <button type="submit" class="login-btn">Entrar</button>
+      <button 
+        type="submit"
+        class="login-btn"
+        [disabled]="isLoading"
+      >
+        <span *ngIf="isLoading">Logando...</span>
+        <span *ngIf="!isLoading">Entrar</span>
+      </button>
     </form>
 
     <div class="register-link">
