@@ -29,6 +29,8 @@ export class LoginModal {
   ) {}
 
   onClose() {
+    this.email = '';
+    this.password = '';
     this.errorMessage = '';
     this.isLoading = false;
     this.close.emit();
