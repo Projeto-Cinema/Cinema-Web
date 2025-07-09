@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AppConfig } from "../app.config";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export interface User {
@@ -25,11 +25,21 @@ export interface UserResponse {
     tipo: string;
 }
 
+export interface UserLogin {
+    email: string;
+    senha: string;
+}
+
+export interface UserLoginResponse {
+    access_token: string;
+    token_type: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
-    private apiUrl = AppConfig.apiUrl + AppConfig.endpoints.users;
+    private apiUrl = AppConfig.apiUrl;
 
     constructor(private http: HttpClient) {}
 
@@ -38,7 +48,19 @@ export class UserService {
             'Content-Type': 'application/json'
         });
 
-        return this.http.post<UserResponse>(this.apiUrl, userData, { headers });
+        const createUserURL = this.apiUrl + AppConfig.endpoints.users; 
+
+        return this.http.post<UserResponse>(createUserURL, userData, { headers });
+    }
+
+    loginUser(userLogin: UserLogin): Observable<UserLoginResponse> {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+
+        const loginURL = this.apiUrl + AppConfig.endpoints.login;
+        
+        return this.http.post<UserLoginResponse>(loginURL, userLogin, { headers });
     }
 
     formatDateToISO(dateString: string): string {

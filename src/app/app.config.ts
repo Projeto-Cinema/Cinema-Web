@@ -21,6 +21,7 @@ export const appConfig: ApplicationConfig = {
 export const AppConfig = {
   apiUrl: 'http://localhost:8000/api/v1',
   endpoints: {
-    users: '/Users/'
+    users: '/Users/',
+    login: '/auth/login/',
   }
 }
