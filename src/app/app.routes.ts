@@ -1,7 +1,13 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './service/auth-guard';
+import { HomeComponent } from './components/home-component/home-component';
 
 export const routes: Routes = [
+    {
+        path: '',
+        pathMatch: 'full',
+        component: HomeComponent
+    },
     {
         path: 'perfil',
         canActivate: [authGuard],
