@@ -13,8 +13,8 @@
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="nome_completo">Nome Completo</label>
-                    <input type="text" id="nome_completo" formControlName="nome_completo">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" formControlName="nome">
                 </div>
 
                 <div class="form-group">
@@ -49,6 +49,7 @@
                     <span *ngIf="isLoading">Atualizando...</span>
                 </button>
                 <button type="button" class="btn btn-secondary" (click)="goBack()">Voltar</button>
+                <button type="button" class="btn btn-danger">Deletar Conta</button>
             </div>
         </form>
     </div>

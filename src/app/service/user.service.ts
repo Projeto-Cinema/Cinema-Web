@@ -78,10 +78,10 @@ export class UserService {
     }
 
     getUserProfile(): Observable<User> {
-        return this.http.get<User>(`${this.apiUrl}/users/me`);
+        return this.http.get<User>(`${this.apiUrl}/Users/me`);
     }
 
     updateUserProfile(userData: Partial<User>): Observable<User> {
-        return this.http.put<User>(`${this.apiUrl}/users/me`, userData);
+        return this.http.put<User>(`${this.apiUrl}/Users/me`, userData);
     }
 }

@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit{
     private location: Location
   ) {
     this.profileForm = this.fb.group({
-      nome_completo: ['', Validators.required],
+      nome: ['', Validators.required],
       email: [{ value: '', disabled: true }, Validators.required],
       dt_nascimento: ['', Validators.required],
       cpf: ['', Validators.required],

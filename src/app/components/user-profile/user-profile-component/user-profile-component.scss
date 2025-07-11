@@ -127,6 +127,16 @@
     }
 }
 
+.btn-danger {
+    background-color: #ff5252;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+
+    &:hover {
+        background-color: #ff1744;
+    }
+}
+
 .error-message, .success-message {
     text-align: center;
     padding: 1rem;
