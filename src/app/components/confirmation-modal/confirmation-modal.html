@@ -1,0 +1,9 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <p class="modal-message">{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+      <button class="btn btn-danger" (click)="onConfirm()">Sim, tenho certeza</button>
+    </div>
+  </div>
+</div>

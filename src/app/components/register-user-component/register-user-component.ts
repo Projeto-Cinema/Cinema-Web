@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User, UserService } from '../../service/user.service';
+import { User, UserCreate, UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-register-user-component',
@@ -63,7 +63,7 @@ export class RegisterUserComponent {
       return;
     }
 
-    const userData: User = {
+    const userData: UserCreate = {
       nome: this.nome.trim(),
       email: this.email.trim().toLowerCase(),
       dt_nascimento: this.userService.formatDateToISO(this.dataNascimento),

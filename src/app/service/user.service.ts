@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export interface User {
+    id: number;
     nome: string;
     email: string;
     dt_nascimento: string;
@@ -13,6 +14,8 @@ export interface User {
     tipo: string;
     senha: string;
 }
+
+export type UserCreate = Omit<User, 'id'>;
 
 export interface UserResponse {
     id?: number;
@@ -43,7 +46,7 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
-    createUser(userData: User): Observable<UserResponse> {
+    createUser(userData: UserCreate): Observable<UserResponse> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
@@ -83,5 +86,9 @@ export class UserService {
 
     updateUserProfile(userData: Partial<User>): Observable<User> {
         return this.http.put<User>(`${this.apiUrl}/Users/me`, userData);
+    }
+
+    desactivateUser(userID: number): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/Users/${userID}/deactivate`, {});
     }
 }

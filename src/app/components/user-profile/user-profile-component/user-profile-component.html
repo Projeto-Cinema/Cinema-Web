@@ -49,8 +49,15 @@
                     <span *ngIf="isLoading">Atualizando...</span>
                 </button>
                 <button type="button" class="btn btn-secondary" (click)="goBack()">Voltar</button>
-                <button type="button" class="btn btn-danger">Deletar Conta</button>
+                <button type="button" class="btn btn-danger" (click)="openDeleteConfirmModal()">Deletar Conta</button>
             </div>
         </form>
     </div>
 </div>
+
+<app-confirmation-modal
+    [isOpen]="isDeleteModalOpen"
+    message="Você tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita."
+    (close)="closeDeleteConfirmModal()"
+    (confirm)="handleDeleteAccount()"
+></app-confirmation-modal>
