@@ -121,7 +121,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   onSearchSubmit(): void {
     if (this.searchQuery.trim()) {
-      this.router.navigate(['/search'], { queryParams: { q: this.searchQuery } });
+      const slug = this.searchQuery
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+
+      this.router.navigate(['/filme', slug], { queryParams: { q: this.searchQuery } });
       this.closeSearch();
     }
   }

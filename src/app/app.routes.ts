@@ -15,4 +15,11 @@ export const routes: Routes = [
             './components/user-profile/user-profile-component/user-profile-component'
         ).then(m => m.UserProfileComponent)
     },
+    {
+        path: 'filme/:titulo',
+        canActivate: [authGuard],
+        loadComponent: () => import(
+            './components/movie-detail/movie-detail'
+        ).then(m => m.MovieDetail)
+    },
 ];
