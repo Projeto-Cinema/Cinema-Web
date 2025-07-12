@@ -102,15 +102,23 @@
   gap: 0.75rem;
   color: #ffffff;
   font-size: 1rem;
-  padding: 0.75rem 1.5rem;
+  padding: 0 15px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  border-radius: 25px;
+  width: 220px;
+  transition: width 0.4s ease-in-out, background-color 0.3s ease;
   cursor: pointer;
   backdrop-filter: blur(10px);
   animation: slideInDown 0.6s ease-out;
   animation-delay: 0.4s;
+
+  &:active {
+    width: 350px;
+    cursor: default;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 107, 53, 0.5);
+  }
 }
 
 .search-container:hover {
@@ -123,6 +131,26 @@
 .search-icon {
   font-size: 1.2rem;
   transition: all 0.3s ease;
+}
+
+.search-form {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #f0f0f0;
+  font-size: 1rem;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #a0a0a0;
+    opacity: 1;
+  }
 }
 
 .search-container:hover .search-icon {

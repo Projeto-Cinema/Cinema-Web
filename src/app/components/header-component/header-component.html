@@ -7,9 +7,23 @@
     </nav>
 
     <div class="nav-right">
-      <div class="search-container">
+      <div class="search-container" 
+        [class.active]="isSearchActive"
+        (click)="!isSearchActive && openSearch(); $event.stopPropagation()"
+      >
         <i class="search-icon">🔍</i>
-        <span class="search-text">Encontre um filme</span>
+        <span *ngIf="!isSearchActive" class="search-text">Encontre um filme</span>
+
+        <form *ngIf="isSearchActive" class="search-form" (ngSubmit)="onSearchSubmit()">
+          <input 
+            type="text"
+            class="search-input"
+            placeholder="Digite o nome do filme"
+            [(ngModel)]="searchQuery"
+            name="searchQuery"
+            (click)="$event.stopPropagation()"
+            autofocus>
+        </form>
       </div>
 
       <div class="user-section">
