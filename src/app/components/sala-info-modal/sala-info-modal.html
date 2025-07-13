@@ -1,0 +1,14 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onClose()">
+  <div class="modal-content" *ngIf="sala" (click)="$event.stopPropagation()">
+    <h3 class="modal-title">{{ sala.nome }}</h3>
+    <div class="sala-details">
+      <div class="detail-item"><strong>Capacidade:</strong> {{ sala.capacidade }}</div>
+      <div class="detail-item"><strong>Tipo:</strong> {{ sala.tipo }}</div>
+      <div class="detail-item"><strong>Recursos:</strong> {{ sala.recursos }}</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" (click)="onClose()">Cancelar</button>
+      <button class="btn btn-confirm" (click)="onConfirm()">Confirmar Sala</button>
+    </div>
+  </div>
+</div>

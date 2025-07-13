@@ -39,7 +39,11 @@
 
     <ng-template #sessionsGrid>
       <div class="sessions-grid">
-        <div class="session-card" *ngFor="let sessao of sessoes">
+        <div 
+          class="session-card" 
+          *ngFor="let sessao of sessoes"
+          [routerLink]="['/sessao', sessao.id]"
+        >
           <div class="session-time">{{ sessao.horario_ini | date:'HH:mm' }}</div>
           <div class="session-details">
             <span>{{ sessao.formato }}</span>

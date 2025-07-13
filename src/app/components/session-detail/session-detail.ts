@@ -5,11 +5,12 @@ import { Observable, tap } from 'rxjs';
 import { Sessao } from '../../models/sessao.model';
 import { Sala } from '../../models/sala.model';
 import { SessaoService } from '../../service/sessao.service';
+import { SalaInfoModal } from "../sala-info-modal/sala-info-modal";
 
 @Component({
   selector: 'app-session-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SalaInfoModal],
   templateUrl: './session-detail.html',
   styleUrl: './session-detail.scss'
 })
