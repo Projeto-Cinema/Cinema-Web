@@ -1,1 +1,80 @@
-<p>session-detail works!</p>
+<div class="page-container" *ngIf="sessao$ | async as sessao">
+  <div class="details-card">
+    <button class="btn btn-back" (click)="goBack()">Voltar</button>
+    
+    <div class="session-info">
+      <div class="info-item">
+        <label>Data</label>
+        <span>{{ sessao.data | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="info-item">
+        <label>Horário Início</label>
+        <span>{{ sessao.horario_ini | date:'HH:mm' }}</span>
+      </div>
+      <div class="info-item">
+        <label>Horário Fim</label>
+        <span>{{ sessao.horario_fim | date:'HH:mm' }}</span>
+      </div>
+      <div class="info-item">
+        <label>Idioma</label>
+        <span>{{ sessao.idioma }} {{ sessao.legendado ? '(LEG)' : '' }}</span>
+      </div>
+      <div class="info-item">
+        <label>Formato</label>
+        <span>{{ sessao.formato }}</span>
+      </div>
+      <div class="info-item">
+        <label>Preço</label>
+        <span>{{ sessao.preco_base | currency:'BRL' }}</span>
+      </div>
+    </div>
+
+    <div class="sala-selection-container" *ngIf="sala$ | async as sala">
+      <div class="info-item">
+        <label>Salas</label>
+        <div class="sala-buttons">
+          <button 
+            class="btn btn-sala" 
+            [class.selected]="salaConfirmed"
+            (click)="openSalaModal()">
+            {{ sala.nome }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="seat-map-container" *ngIf="sala$ | async as sala">
+      <h3>Escolha seus assentos</h3>
+      <div class="screen">TELA</div>
+      <div class="seat-grid">
+        <div *ngFor="let row of seatMap; let i = index" class="seat-row">
+          <div class="row-label">Alguma coisa</div>
+          <div 
+            *ngFor="let seat of row; let j = index"
+            class="seat"
+            [ngClass]="getSeatClass(seat)"
+            (click)="toggleSeatSelection(seat)">
+            <span *ngIf="seat !== '_'">{{ j + 1 }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="seat available"></div> Disponível</div>
+        <div class="legend-item"><div class="seat selected"></div> Selecionado</div>
+        <div class="legend-item"><div class="seat occupied"></div> Ocupado</div>
+      </div>
+    </div>
+
+    <div class="action-buttons" *ngIf="salaConfirmed">
+      <button class="btn btn-cancel" (click)="goBack()">Cancelar</button>
+      <button class="btn btn-confirm" [disabled]="selectedSeats.length === 0" (click)="confirmarSelecao()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- <app-sala-info-modal
+  [isOpen]="isSalaModalOpen"
+  [sala]="currentSala"
+  (close)="closeSalaModal()"
+  (confirm)="handleSalaConfirm()">
+</app-sala-info-modal> -->
