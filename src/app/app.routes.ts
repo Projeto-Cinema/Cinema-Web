@@ -22,4 +22,11 @@ export const routes: Routes = [
             './components/movie-detail/movie-detail'
         ).then(m => m.MovieDetail)
     },
+    {
+        path: 'sessao/:id',
+        canActivate: [authGuard],
+        loadComponent: () => import(
+            './components/session-detail/session-detail'
+        ).then(m => m.SessionDetail)
+    }
 ];
