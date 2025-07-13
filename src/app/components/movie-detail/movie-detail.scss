@@ -77,8 +77,39 @@
   background-color: #1c1c1e;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem 1.5rem;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: #ff6b35;
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2);
+  }
+}
+
+.session-time {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ff6b35;
+  margin-bottom: 0.5rem;
+}
+
+.session-details {
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.no-sessions {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1c1c1e;
+  border-radius: 12px;
+  color: #a0a0a0;
 }
 
 .loading-container {

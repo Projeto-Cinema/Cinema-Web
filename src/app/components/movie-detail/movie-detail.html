@@ -30,16 +30,25 @@
 
   </div>
 
-  <div class="sessions-section">
+  <div class="sessions-section" *ngIf="sessoes$ | async as sessoes">
     <h2>Sessões Disponíveis</h2>
-    <div class="sessions-grid">
-      <div class="session-card">Sessão 1</div>
-      <div class="session-card">Sessão 2</div>
-      <div class="session-card">Sessão 3</div>
-      <div class="session-card">Sessão 4</div>
-    </div>
-  </div>
 
+    <div *ngIf="sessoes.length === 0; else sessionsGrid" class="no-sessions">
+      <p>Não há sessões disponíveis para este filme no momento</p>
+    </div>
+
+    <ng-template #sessionsGrid>
+      <div class="sessions-grid">
+        <div class="session-card" *ngFor="let sessao of sessoes">
+          <div class="session-time">{{ sessao.horario_ini | date:'HH:mm' }}</div>
+          <div class="session-details">
+            <span>{{ sessao.formato }}</span>
+            <span>{{ sessao.idioma }} {{ sessao.legendado ? '(LEG)' : '' }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>
 
 <ng-template #loading>
