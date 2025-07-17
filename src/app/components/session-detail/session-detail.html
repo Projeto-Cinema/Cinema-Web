@@ -69,6 +69,12 @@
       <button class="btn btn-cancel" (click)="goBack()">Cancelar</button>
       <button class="btn btn-confirm" [disabled]="selectedSeats.length === 0" (click)="confirmarSelecao()">Confirmar</button>
     </div>
+
+    <div class="loading-overlay" *ngIf="isCreatingReservation">
+      <div class="loading-box">
+        <p>Gerando a sua reserva!</p>
+      </div>
+    </div>
   </div>
 </div>
 

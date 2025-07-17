@@ -2,34 +2,36 @@ import { isPlatformBrowser } from "@angular/common";
 import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
 import { BehaviorSubject, Observable } from "rxjs";
+import { User, UserService } from "./user.service";
 
 export interface DecodedToken {
     sub: string;
     exp: number;
 }
 
-export interface AuthUser {
-    email: string;
-    nome: string;
-}
-
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private currentUserSubject = new BehaviorSubject<AuthUser | null>(null);
-    public currentUser$: Observable<AuthUser | null> = this.currentUserSubject.asObservable();
+    private currentUserSubject = new BehaviorSubject<User | null>(null);
+    public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
     private isBrowser: boolean;
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: Object
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private userService: UserService
     ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
+        this.loadUserOnStartup();
+    }
 
-        const token = this.getToken();
-        if (token) {
-            this.processToken(token);
+    private loadUserOnStartup(): void {
+        if (this.isBrowser) {
+            const token = this.getToken();
+            if (token) {
+                this.processTokenAndFetchUser(token);
+            }
         }
     }
 
@@ -37,7 +39,7 @@ export class AuthService {
         if (this.isBrowser) {
             localStorage.setItem('access_token', token);
         }
-        this.processToken(token);
+        this.processTokenAndFetchUser(token);
     }
 
     logout(): void {
@@ -47,17 +49,23 @@ export class AuthService {
         this.currentUserSubject.next(null);
     }
 
-    private processToken(token: string): void {
+    public getCurrentUserValue(): User | null {
+        return this.currentUserSubject.getValue();
+    }
+
+    private processTokenAndFetchUser(token: string): void {
         try {
-            const decodedToken: DecodedToken = jwtDecode(token);
-            const name = decodedToken.sub.split('@')[0];
+            jwtDecode(token);
 
-            const user: AuthUser = {
-                email: decodedToken.sub,
-                nome: name
-            };
-
-            this.currentUserSubject.next(user);
+            this.userService.getUserProfile().subscribe({
+                next: (user) => {
+                    this.currentUserSubject.next(user);
+                },
+                error: (err) => {
+                    console.error('Erro ao buscar perfil do usuário:', err);
+                    this.logout();
+                }
+            });
         } catch (error) {
             console.error('Token inválido ou expirado', error);
             this.logout();

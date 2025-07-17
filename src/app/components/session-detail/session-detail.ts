@@ -1,11 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { Sessao } from '../../models/sessao.model';
 import { Assento, Sala } from '../../models/sala.model';
 import { SessaoService } from '../../service/sessao.service';
 import { SalaInfoModal } from "../sala-info-modal/sala-info-modal";
+import { ReservaService } from '../../service/reserva.service';
+import { AuthService } from '../../service/auth.service';
+import { ReservaCreate } from '../../models/reserva.model';
 
 @Component({
   selector: 'app-session-detail',
@@ -27,9 +30,15 @@ export class SessionDetail implements OnInit{
 
   String = String;
 
+  currentSessao: Sessao | null = null;
+  isCreatingReservation: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private sessaoService: SessaoService,
+    private reservaService: ReservaService,
+    private authService: AuthService,
     private location: Location
   ) { }
   
@@ -39,6 +48,7 @@ export class SessionDetail implements OnInit{
     if (sessionID) {
       this.sessao$ = this.sessaoService.getSessaoById(sessionID).pipe(
         tap(sessao => {
+          this.currentSessao = sessao;
           this.sala$ = this.sessaoService.getSalaById(sessao.sala_id).pipe(
             tap(sala => {
               this.currentSala = sala;
@@ -108,12 +118,40 @@ export class SessionDetail implements OnInit{
   }
 
   confirmarSelecao(): void {
-    if (this.selectedSeats.length === 0) {
-      alert('Por favor, selecione pelo menos um assento.');
+    if (this.selectedSeats.length === 0 || !this.currentSessao) {
+      alert('Selecione pelo menos um assento.');
       return;
     }
 
-    console.log('Assentos selecionados:', this.selectedSeats);
+    this.isCreatingReservation = true;
+
+    const currentUser = this.authService.getCurrentUserValue();
+
+    if (!currentUser || !currentUser.id) {
+      alert('Você precisa estar logado para fazer uma reserva.');
+      this.isCreatingReservation = false;
+      return;
+    }
+
+    const reservaData: ReservaCreate = {
+      usuario_id: currentUser.id,
+      sessao_id: this.currentSessao.id,
+      status: 'pendente',
+      metodo_pagamento: 'pix',
+      valor_total: this.selectedSeats.length * this.currentSessao.preco_base,
+      itens: this.selectedSeats.map(codigo => ({ assento_codigo: codigo }))
+    };
+
+    this.reservaService.createReserva(reservaData).subscribe({
+      next: (novaReserva) => {
+        this.router.navigate(['/reserva', novaReserva.id]);
+      },
+      error: (error) => {
+        console.error('Erro ao criar reserva:', error);
+        alert('Não foi possível criar a sua reserva. Tente novamente.');
+        this.isCreatingReservation = false;
+      }
+    });
   }
 
   goBack(): void {

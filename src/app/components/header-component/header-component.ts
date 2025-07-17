@@ -2,11 +2,12 @@ import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular
 import { LoginModal } from "../shared/login-modal/login-modal";
 import { CommonModule } from '@angular/common';
 import { RegisterUserComponent } from "../register-user-component/register-user-component";
-import { AuthService, AuthUser } from '../../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 import { UserMenuComponent } from "../user-menu-component/user-menu-component";
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { User } from '../../service/user.service';
 
 @Component({
   selector: 'app-header-component',
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   isSearchActive: boolean = false;
   searchQuery: string = '';
 
-  currentUser: AuthUser | null = null;
+  currentUser: User | null = null;
   private authSubscription!: Subscription;
 
   constructor(
