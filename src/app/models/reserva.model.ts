@@ -2,7 +2,9 @@ export interface ItemReserva {
   assento_codigo: string;
 }
 
-export type ReservaCreate = {
+export interface Reserva {
+  id: number;
+  data_reserva: string;
   status: 'pendente' | 'confirmada' | 'cancelada' | 'expirada';
   valor_total: number;
   metodo_pagamento: string;
@@ -11,7 +13,4 @@ export type ReservaCreate = {
   itens: ItemReserva[];
 }
 
-export interface Reserva extends ReservaCreate {
-  id: number;
-  data_reserva: string;
-}
+export type ReservaCreate = Omit<Reserva, 'id'>;

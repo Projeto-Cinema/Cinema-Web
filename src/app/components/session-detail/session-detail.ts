@@ -6,9 +6,6 @@ import { Sessao } from '../../models/sessao.model';
 import { Assento, Sala } from '../../models/sala.model';
 import { SessaoService } from '../../service/sessao.service';
 import { SalaInfoModal } from "../sala-info-modal/sala-info-modal";
-import { ReservaService } from '../../service/reserva.service';
-import { AuthService } from '../../service/auth.service';
-import { ReservaCreate } from '../../models/reserva.model';
 
 @Component({
   selector: 'app-session-detail',
@@ -31,14 +28,11 @@ export class SessionDetail implements OnInit{
   String = String;
 
   currentSessao: Sessao | null = null;
-  isCreatingReservation: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private sessaoService: SessaoService,
-    private reservaService: ReservaService,
-    private authService: AuthService,
     private location: Location
   ) { }
   
@@ -122,36 +116,16 @@ export class SessionDetail implements OnInit{
       alert('Selecione pelo menos um assento.');
       return;
     }
-
-    this.isCreatingReservation = true;
-
-    const currentUser = this.authService.getCurrentUserValue();
-
-    if (!currentUser || !currentUser.id) {
-      alert('Você precisa estar logado para fazer uma reserva.');
-      this.isCreatingReservation = false;
-      return;
-    }
-
-    const reservaData: ReservaCreate = {
-      usuario_id: currentUser.id,
-      sessao_id: this.currentSessao.id,
-      status: 'pendente',
-      metodo_pagamento: 'pix',
-      valor_total: this.selectedSeats.length * this.currentSessao.preco_base,
-      itens: this.selectedSeats.map(codigo => ({ assento_codigo: codigo }))
+    
+    const navigationData = {
+      sessaoId: this.currentSessao.id,
+      selectedSeats: this.selectedSeats,
+      precoBase: this.currentSessao.preco_base
     };
 
-    this.reservaService.createReserva(reservaData).subscribe({
-      next: (novaReserva) => {
-        this.router.navigate(['/reserva', novaReserva.id]);
-      },
-      error: (error) => {
-        console.error('Erro ao criar reserva:', error);
-        alert('Não foi possível criar a sua reserva. Tente novamente.');
-        this.isCreatingReservation = false;
-      }
-    });
+    // Navega para a nova página de criação de reserva,
+    // passando os dados de forma segura através do 'state' do roteador.
+    this.router.navigate(['/criar-reserva'], { state: navigationData });
   }
 
   goBack(): void {
