@@ -28,5 +28,12 @@ export const routes: Routes = [
         loadComponent: () => import(
             './components/session-detail/session-detail'
         ).then(m => m.SessionDetail)
+    },
+    {
+        path: 'criar-reserva',
+        canActivate: [authGuard],
+        loadComponent: () => import(
+            './components/reservation-detail/reservation-detail'
+        ).then(m => m.ReservationDetail)
     }
 ];

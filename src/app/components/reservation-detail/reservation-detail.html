@@ -1,0 +1,52 @@
+<div class="page-container">
+  <div class="details-card">
+    <button class="btn btn-back" (click)="goBack()">Voltar</button>
+    <h2>Finalizar Reserva</h2>
+    
+    <form [formGroup]="reservaForm" (ngSubmit)="onSubmit()">
+      <div class="details-grid">
+        
+        <div class="info-item">
+          <label>Data da Reserva</label>
+          <span>{{ dataAtual | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+
+        <div class="info-item">
+          <label>Status</label>
+          <span class="status pendente">Pendente</span>
+        </div>
+
+        <div class="info-item">
+          <label for="metodo_pagamento">Método de Pagamento</label>
+          <select id="metodo_pagamento" formControlName="metodo_pagamento">
+            <option value="pix">PIX</option>
+            <option value="cartao">Cartão de Crédito</option>
+            <option value="boleto">Boleto</option>
+          </select>
+        </div>
+
+        <div class="info-item">
+          <label>Valor Total</label>
+          <span>{{ valorTotal | currency:'BRL' }}</span>
+        </div>
+
+        <div class="info-item full-width">
+          <label>Produtos</label>
+          <div class="produtos-placeholder">
+            <span>Em breve, adicione pipoca e refrigerante aqui!</span>
+            <button type="button" class="btn-add-produto">+</button>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="action-buttons">
+        <button type="button" class="btn btn-cancel" (click)="goBack()">Cancelar</button>
+        <button type="submit" class="btn btn-confirm" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Confirmar Reserva</span>
+          <span *ngIf="isLoading">Processando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
