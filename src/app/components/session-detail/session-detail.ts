@@ -19,7 +19,7 @@ export class SessionDetail implements OnInit{
   sala$!: Observable<Sala>;
 
   seatGrid: (Assento | null)[][] = [];
-  selectedSeats: string[] = [];
+  selectedSeats: Assento[] = [];
 
   isSalaModalOpen: boolean = false;
   salaConfirmed: boolean = false;
@@ -93,19 +93,17 @@ export class SessionDetail implements OnInit{
   toggleSeatSelection(assento: Assento | null): void {
     if (!assento || assento.ativo !== 'ativo') return;
 
-    const seatCode = assento.codigo;
-    const index = this.selectedSeats.indexOf(seatCode);
-
+    const index = this.selectedSeats.findIndex(s => s.id === assento.id);
     if (index > -1) {
       this.selectedSeats.splice(index, 1);
     } else {
-      this.selectedSeats.push(seatCode);
+      this.selectedSeats.push(assento);
     }
   }
 
   getSeatClass(assento: Assento | null): string {
     if (!assento) return 'corridor';
-    if (this.selectedSeats.includes(assento.codigo)) return 'selected';
+    if (this.selectedSeats.some(s => s.id === assento.id)) return 'selected';
     if (assento.ativo !== 'ativo') return 'ocupied';
 
     return 'available';

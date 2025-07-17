@@ -1,5 +1,10 @@
 export interface ItemReserva {
-  assento_codigo: string;
+  item_id: number;
+  tipo: 'assento' | 'produto';
+  quantidade: number;
+  preco_unitario: number;
+  preco_total: number;
+  desconto: number;
 }
 
 export interface Reserva {
@@ -10,7 +15,7 @@ export interface Reserva {
   metodo_pagamento: string;
   usuario_id: number;
   sessao_id: number;
-  itens: ItemReserva[];
+  itens: any[];
 }
 
 export type ReservaCreate = Omit<Reserva, 'id'>;
