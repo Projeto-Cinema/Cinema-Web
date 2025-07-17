@@ -1,8 +1,11 @@
 export interface Assento {
   id: number;
-  posicao: string;
-  status: 'disponivel' | 'ocupado' | 'selecionado';
+  codigo: string;
   tipo: string;
+  posicao_x: number;
+  posicao_y: number;
+  ativo: string;
+  status?: 'disponivel' | 'ocupado' | 'selecionado';
 }
 
 export interface Sala {
@@ -11,7 +14,6 @@ export interface Sala {
   capacidade: number;
   tipo: string;
   recursos: string;
-  mapa_assentos: string; 
   status: string;
   cinema_id: number;
   assentos: Assento[];

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { Sessao } from '../../models/sessao.model';
-import { Sala } from '../../models/sala.model';
+import { Assento, Sala } from '../../models/sala.model';
 import { SessaoService } from '../../service/sessao.service';
 import { SalaInfoModal } from "../sala-info-modal/sala-info-modal";
 
@@ -18,11 +18,14 @@ export class SessionDetail implements OnInit{
   sessao$!: Observable<Sessao>;
   sala$!: Observable<Sala>;
 
-  seatMap: string[][] = [];
+  seatGrid: (Assento | null)[][] = [];
   selectedSeats: string[] = [];
+
   isSalaModalOpen: boolean = false;
   salaConfirmed: boolean = false;
   currentSala: Sala | null = null;
+
+  String = String;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +42,7 @@ export class SessionDetail implements OnInit{
           this.sala$ = this.sessaoService.getSalaById(sessao.sala_id).pipe(
             tap(sala => {
               this.currentSala = sala;
-              this.parseSeatMap(sala.mapa_assentos);
+              this.buildSeatGrid(sala.assentos);
             })
           );
         })
@@ -60,29 +63,47 @@ export class SessionDetail implements OnInit{
     this.isSalaModalOpen = false;
   }
 
-  private parseSeatMap(mapString: string): void {
-    try {
-      this.seatMap = JSON.parse(mapString);
-    } catch (error) {
-      console.error('Erro ao processar o mapa de assentos:', error);
-      this.seatMap = [];
+  private buildSeatGrid(assentos: Assento[]): void {
+    if (!assentos || assentos.length === 0) {
+      this.seatGrid = [];
+      return;
     }
+
+    const maxRow = Math.max(...assentos.map(a => a.posicao_y));
+    const maxCol = Math.max(...assentos.map(a => a.posicao_x));
+
+    const grid: (Assento | null)[][] = Array(maxRow).fill(null).map(() => Array(maxCol).fill(null));
+
+    for (const assento of assentos) {
+      const rowIndex = assento.posicao_y - 1;
+      const colIndex = assento.posicao_x - 1;
+
+      if (rowIndex >= 0 && rowIndex < maxRow && colIndex >= 0 && colIndex < maxCol) {
+        grid[rowIndex][colIndex] = assento;
+      }
+    }
+
+    this.seatGrid = grid;
   }
 
-  toggleSeatSelection(seatIdentifier: string): void {
-    if (seatIdentifier === '_') return;
+  toggleSeatSelection(assento: Assento | null): void {
+    if (!assento || assento.ativo !== 'ativo') return;
 
-    const index = this.selectedSeats.indexOf(seatIdentifier);
+    const seatCode = assento.codigo;
+    const index = this.selectedSeats.indexOf(seatCode);
+
     if (index > -1) {
       this.selectedSeats.splice(index, 1);
     } else {
-      this.selectedSeats.push(seatIdentifier);
+      this.selectedSeats.push(seatCode);
     }
   }
 
-  getSeatClass(seatIdentifier: string): string {
-    if (seatIdentifier === '_') return 'corridor';
-    if (this.selectedSeats.includes(seatIdentifier)) return 'selected';
+  getSeatClass(assento: Assento | null): string {
+    if (!assento) return 'corridor';
+    if (this.selectedSeats.includes(assento.codigo)) return 'selected';
+    if (assento.ativo !== 'ativo') return 'ocupied';
+
     return 'available';
   }
 

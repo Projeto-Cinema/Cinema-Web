@@ -47,14 +47,14 @@
       <h3>Escolha seus assentos</h3>
       <div class="screen">TELA</div>
       <div class="seat-grid">
-        <div *ngFor="let row of seatMap; let i = index" class="seat-row">
-          <div class="row-label">Alguma coisa</div>
+        <div *ngFor="let row of seatGrid; let i = index" class="seat-row">
+          <div class="row-label">{{ String.fromCharCode(65 + i) }}</div>
           <div 
-            *ngFor="let seat of row; let j = index"
+            *ngFor="let seat of row"
             class="seat"
             [ngClass]="getSeatClass(seat)"
             (click)="toggleSeatSelection(seat)">
-            <span *ngIf="seat !== '_'">{{ j + 1 }}</span>
+            <span *ngIf="seat">{{ seat.codigo.substring(1) }}</span>
           </div>
         </div>
       </div>
