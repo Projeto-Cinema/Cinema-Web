@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LoginModal } from "../shared/login-modal/login-modal";
 import { CommonModule } from '@angular/common';
 import { RegisterUserComponent } from "../user/register-user-component/register-user-component";
@@ -35,7 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
   constructor(
     private authService: AuthService,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   openLoginModal(event: Event) {
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   onLoginSuccess(credentails: any) {
     console.log('Login successful:', credentails);
+    this.cdr.detectChanges();
     this.closeLoginModal();
   }
 
@@ -103,6 +105,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      this.cdr.detectChanges();
     });
   }
   ngOnDestroy(): void {
