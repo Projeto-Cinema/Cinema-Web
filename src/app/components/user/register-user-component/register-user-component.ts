@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User, UserCreate, UserService } from '../../service/user.service';
+import { User, UserCreate, UserService } from '../../../service/user.service';
 
 @Component({
   selector: 'app-register-user-component',

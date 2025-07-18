@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { User, UserService } from '../../../service/user.service';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
-import { ConfirmationModal } from "../../confirmation-modal/confirmation-modal";
+import { ConfirmationModal } from "../confirmation-modal/confirmation-modal";
 
 @Component({
   selector: 'app-user-profile-component',

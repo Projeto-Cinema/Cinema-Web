@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Reserva } from '../../models/reserva.model';
-import { ReservaService } from '../../service/reserva.service';
-import { PagamentoCreate } from '../../models/pagamento.model';
+import { Reserva } from '../../../models/reserva.model';
+import { ReservaService } from '../../../service/reserva.service';
+import { PagamentoCreate } from '../../../models/pagamento.model';
 import { switchMap } from 'rxjs';
 
 @Component({

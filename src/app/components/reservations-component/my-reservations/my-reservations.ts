@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Reserva } from '../../models/reserva.model';
-import { ReservaService } from '../../service/reserva.service';
-import { AuthService } from '../../service/auth.service';
+import { Reserva } from '../../../models/reserva.model';
+import { ReservaService } from '../../../service/reserva.service';
+import { AuthService } from '../../../service/auth.service';
 import { ReservationDetailsModal } from '../reservation-details-modal/reservation-details-modal';
 
 @Component({

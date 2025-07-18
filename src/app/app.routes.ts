@@ -12,7 +12,7 @@ export const routes: Routes = [
         path: 'perfil',
         canActivate: [authGuard],
         loadComponent: () => import(
-            './components/user-profile/user-profile-component/user-profile-component'
+            './components/user/user-profile-component/user-profile-component'
         ).then(m => m.UserProfileComponent)
     },
     {
@@ -33,14 +33,14 @@ export const routes: Routes = [
         path: 'criar-reserva',
         canActivate: [authGuard],
         loadComponent: () => import(
-            './components/reservation-detail/reservation-detail'
+            './components/reservations-component/reservation-detail/reservation-detail'
         ).then(m => m.ReservationDetail)
     },
     {
         path: 'minhas-reservas',
         canActivate: [authGuard],
         loadComponent: () => import(
-            './components/my-reservations/my-reservations'
+            './components/reservations-component/my-reservations/my-reservations'
         ).then(m => m.MyReservations)
     }
 ];

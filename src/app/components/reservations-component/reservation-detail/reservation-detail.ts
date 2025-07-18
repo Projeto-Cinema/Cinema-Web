@@ -1,14 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ItemReserva, ReservaCreate } from '../../models/reserva.model';
+import { ItemReserva, ReservaCreate } from '../../../models/reserva.model';
 import { Router } from '@angular/router';
-import { ReservaService } from '../../service/reserva.service';
-import { AuthService } from '../../service/auth.service';
+import { ReservaService } from '../../../service/reserva.service';
+import { AuthService } from '../../../service/auth.service';
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
-import { Assento } from '../../models/sala.model';
-import { Produto } from '../../models/produto.model';
-import { ProdutoService } from '../../service/produto.service';
+import { Assento } from '../../../models/sala.model';
+import { Produto } from '../../../models/produto.model';
+import { ProdutoService } from '../../../service/produto.service';
 
 interface ProdutoCarrinho {
   produto: Produto;

@@ -1,10 +1,10 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LoginModal } from "../shared/login-modal/login-modal";
 import { CommonModule } from '@angular/common';
-import { RegisterUserComponent } from "../register-user-component/register-user-component";
+import { RegisterUserComponent } from "../user/register-user-component/register-user-component";
 import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
-import { UserMenuComponent } from "../user-menu-component/user-menu-component";
+import { UserMenuComponent } from "../user/user-menu-component/user-menu-component";
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../service/user.service';
