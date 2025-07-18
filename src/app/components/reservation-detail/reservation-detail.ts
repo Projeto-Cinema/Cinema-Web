@@ -5,8 +5,15 @@ import { ItemReserva, ReservaCreate } from '../../models/reserva.model';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../service/reserva.service';
 import { AuthService } from '../../service/auth.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { Assento } from '../../models/sala.model';
+import { Produto } from '../../models/produto.model';
+import { ProdutoService } from '../../service/produto.service';
+
+interface ProdutoCarrinho {
+  produto: Produto;
+  quantidade: number;
+}
 
 @Component({
   selector: 'app-reservation-detail',
@@ -24,6 +31,8 @@ export class ReservationDetail implements OnInit {
   private selectedSeats: Assento[] = [];
   private precoBase!: number;
   
+  produtosDisponiveis$!: Observable<Produto[]>;
+  produtosCarrinho: ProdutoCarrinho[] = [];
   valorTotal = 0;
   dataAtual: Date;
 
@@ -32,6 +41,7 @@ export class ReservationDetail implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     private reservaService: ReservaService,
+    private produtoService: ProdutoService,
     private authService: AuthService
   ) {
     this.dataAtual = new Date();
@@ -41,13 +51,21 @@ export class ReservationDetail implements OnInit {
       sessaoId: number;
       selectedSeats: Assento[];
       precoBase: number;
+      cinemaId: number;
     };
 
-    if (state) {
+    if (state && state.cinemaId) {
       this.sessaoId = state.sessaoId;
       this.selectedSeats = state.selectedSeats;
       this.precoBase = state.precoBase;
-      this.valorTotal = this.selectedSeats.length * this.precoBase;
+
+      this.produtosDisponiveis$ = this.produtoService.getProdutos().pipe(
+        map(produtos => {
+          return produtos.filter(produto => produto.disponivel && produto.cinema_id === state.cinemaId);
+        })
+      );
+
+      this.recalcularValorTotal();
     } else {
       this.router.navigate(['/']);
     }
@@ -58,6 +76,43 @@ export class ReservationDetail implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  adicionarProduto(produto: Produto): void {
+    const itemExiste = this.produtosCarrinho.find(item => item.produto.id === produto.id);
+    if (itemExiste) {
+      itemExiste.quantidade++;
+    } else {
+      this.produtosCarrinho.push({ produto, quantidade: 1 });
+    }
+
+    this.recalcularValorTotal();
+  }
+
+  removerProduto(produtoId: number): void {
+    const itemIndex = this.produtosCarrinho.findIndex(item => item.produto.id === produtoId);
+    if (itemIndex > -1) {
+      const item = this.produtosCarrinho[itemIndex];
+      item.quantidade--;
+      if (item.quantidade <= 0) {
+        this.produtosCarrinho.splice(itemIndex, 1);
+      }
+    }
+
+    this.recalcularValorTotal();
+  }
+
+  getQuantidadeProduto(produtoId: number): number {
+    return this.produtosCarrinho.find(item => item.produto.id === produtoId)?.quantidade || 0;
+  }
+
+  recalcularValorTotal(): void {
+    const valorIngressos = this.selectedSeats.length * this.precoBase;
+    const valorProdutos = this.produtosCarrinho.reduce((total, item) => {
+      return total + (item.produto.preco * item.quantidade);
+    }, 0);
+
+    this.valorTotal = valorIngressos + valorProdutos;
+  }
 
   onSubmit(): void {
     if (this.reservaForm.invalid) return;
@@ -83,20 +138,31 @@ export class ReservationDetail implements OnInit {
 
     this.reservaService.createReserva(reservaData).pipe(
       switchMap(novaReserva => {
-        const addItemObservables = this.selectedSeats.map(assento => {
-          const itemData: ItemReserva = {
-            item_id: assento.id,
-            tipo: 'assento',
-            quantidade: 1,
-            preco_unitario: this.precoBase,
-            preco_total: this.precoBase,
-            desconto: 0
-          };
+        const itensAssentos = this.selectedSeats.map(assento => ({
+          item_id: assento.id,
+          tipo: 'assento' as 'assento',
+          quantidade: 1,
+          preco_unitario: this.precoBase,
+          preco_total: this.precoBase,
+          desconto: 0
+        }));
 
-          return this.reservaService.addItemToReserva(novaReserva.id, itemData);
-        });
+        const itensProdutos = this.produtosCarrinho.map(item => ({
+          item_id: item.produto.id,
+          tipo: 'produto' as 'produto',
+          quantidade: item.quantidade,
+          preco_unitario: item.produto.preco,
+          preco_total: item.produto.preco * item.quantidade,
+          desconto: 0
+        }));
 
-        return addItemObservables.length > 0 ? forkJoin(addItemObservables) : of([]);
+        const todosItens: ItemReserva[] = [...itensAssentos, ...itensProdutos];
+
+        const addItensObservables = todosItens.map(item => 
+          this.reservaService.addItemToReserva(novaReserva.id, item)
+        );
+
+        return addItensObservables.length > 0 ? forkJoin(addItensObservables) : of([]);
       })
     ).subscribe({
       next: () => {

@@ -118,7 +118,8 @@ export class SessionDetail implements OnInit{
     const navigationData = {
       sessaoId: this.currentSessao.id,
       selectedSeats: this.selectedSeats,
-      precoBase: this.currentSessao.preco_base
+      precoBase: this.currentSessao.preco_base,
+      cinemaId: this.currentSala?.cinema_id,
     };
 
     // Navega para a nova página de criação de reserva,

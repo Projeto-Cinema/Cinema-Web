@@ -32,12 +32,22 @@
 
         <div class="info-item full-width">
           <label>Produtos</label>
-          <div class="produtos-placeholder">
-            <span>Em breve, adicione pipoca e refrigerante aqui!</span>
-            <button type="button" class="btn-add-produto">+</button>
+          <div class="produtos-list" *ngIf="produtosDisponiveis$ | async as produtos">
+            <div *ngFor="let produto of produtos" class="produto-item">
+              <span class="produto-nome">{{ produto.nome }} ({{ produto.preco | currency:'BRL' }})</span>
+              <div class="quantity-selector">
+                <button type="button" (click)="removerProduto(produto.id)">-</button>
+                <span>{{ getQuantidadeProduto(produto.id) }}</span>
+                <button type="button" (click)="adicionarProduto(produto)">+</button>
+              </div>
+            </div>
           </div>
         </div>
 
+        <div class="info-item">
+          <label>Valor Total</label>
+          <span class="valor-total">{{ valorTotal | currency:'BRL' }}</span>
+        </div>
       </div>
       
       <div class="action-buttons">
