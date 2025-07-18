@@ -1,0 +1,46 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onClose()">
+  
+  <div class="modal-content" *ngIf="reserva" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3>Detalhes da Reserva #{{ reserva.id }}</h3>
+      <button class="close-btn" (click)="onClose()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="details-grid">
+        <div class="info-item">
+          <label>Data da Reserva</label>
+          <span>{{ reserva.data_reserva | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Status</label>
+          <span class="status" [ngClass]="reserva.status">{{ reserva.status }}</span>
+        </div>
+        <div class="info-item">
+          <label>Método de Pagamento</label>
+          <span>{{ reserva.metodo_pagamento | titlecase }}</span>
+        </div>
+        <div class="info-item">
+          <label>Valor Total</label>
+          <span>{{ reserva.valor_total | currency:'BRL' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button 
+        *ngIf="reserva.status === 'pendente'"
+        class="btn btn-confirm" 
+        (click)="processPagamento()" 
+        [disabled]="isProcessing">
+        <span *ngIf="!isProcessing">Processar Pagamento</span>
+        <span *ngIf="isProcessing">Processando...</span>
+      </button>
+      <p *ngIf="reserva.status !== 'pendente'" class="pagamento-confirmado">
+        Esta reserva já foi processada.
+      </p>
+    </div>
+
+  </div>
+</div>

@@ -32,4 +32,8 @@ export class ReservaService {
   createPagamento(pagamentoData: PagamentoCreate): Observable<Pagamento> {
     return this.http.post<Pagamento>(`${this.apiUrl}/payment/`, pagamentoData);
   }
+
+  processPagamento(pagamentoId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/payment/${pagamentoId}/process`, {});
+  }
 }
