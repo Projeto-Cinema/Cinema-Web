@@ -1,0 +1,28 @@
+<div class="page-container">
+  <div class="section-header">
+    <h1>Filmes em Cartaz</h1>
+    <p>Explore todos os filmes disponíveis em nosso cinema</p>
+  </div>
+
+  <div *ngIf="todosFilmes$ | async as filmes; else loading">
+    <div *ngIf="filmes.length > 0; else noFilmes" class="movies-grid">     
+      <a *ngFor="let filme of filmes" [routerLink]="['/filme', createSlug(filme.titulo)]" class="movie-card">
+        <img [src]="filme.url_poster || 'https://placehold.co/260x390/1c1c1e/f0f0f0?text=' + filme.titulo" [alt]="filme.titulo" class="movie-poster">
+        <div class="movie-details">
+          <h3 class="movie-title">{{ filme.titulo }}</h3>
+          <p class="movie-info">{{ filme.duracao_min }} min • {{ filme.classificacao }}</p>
+          <p class="movie-genre">{{ formatarGeneros(filme.generos) }}</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-placeholder">Carregando filmes...</div>
+  </ng-template>
+
+  <ng-template #noFilmes>
+    <p class="no-filmes-message">Não há filmes disponíveis no momento.</p>
+  </ng-template>
+</div>
