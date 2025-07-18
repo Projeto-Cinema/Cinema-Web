@@ -42,5 +42,11 @@ export const routes: Routes = [
         loadComponent: () => import(
             './components/reservations-component/my-reservations/my-reservations'
         ).then(m => m.MyReservations)
+    },
+    {
+        path: 'em-cartaz',
+        loadComponent: () => import(
+            './components/movies-in-theaters/movies-in-theaters'
+        ).then(m => m.MoviesInTheaters)
     }
 ];
