@@ -13,6 +13,10 @@ export class FilmeService {
 
     constructor(private http: HttpClient) { }
 
+    getFilmes(): Observable<Filme[]> {
+        return this.http.get<Filme[]>(`${this.apiURL}/movies/all`);
+    }
+
     getFilmeByTitulo(titulo: string): Observable<Filme> {
         const params = new HttpParams().set('titulo', titulo);
         const searchUrl = `${this.apiURL}/movies/`;

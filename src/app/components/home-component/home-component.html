@@ -4,30 +4,28 @@
   <main class="main-content">
     <div class="container">
       <!-- Hero Banner Section -->
-        <section class="hero-banner">
+        <section class="hero-banner" *ngIf="filmeDestaque$ | async as destaque; else loadingHero">
             <div class="hero-background">
                 <div class="hero-overlay"></div>
             </div>
             
             <div class="hero-content">
                 <div class="hero-info">
-                    <h1 class="hero-title">Vingadores: Ultimato</h1>
+                    <h1 class="hero-title">{{ destaque.titulo }}</h1>
                     <div class="hero-meta">
-                        <span class="genre">Ação, Aventura, Ficção Científica</span>
-                        <span class="duration">181 min</span>
+                        <span class="genre">{{ formatarGeneros(destaque.generos) }}</span>
+                        <span class="duration">{{ destaque.duracao_min }}</span>
                         <span class="rating">
                             <span class="stars">★★★★☆</span>
-                            <span class="score">8.4/10</span>
+                            <span class="score">{{ destaque.classificacao }}</span>
                         </span>
                     </div>
-                    <p class="hero-synopsis">
-                        Após os eventos devastadores de Vingadores: Guerra Infinita, o universo está em ruínas devido aos esforços do Titã Louco, Thanos. Com a ajuda de aliados remanescentes, os Vingadores devem se reunir mais uma vez para desfazer as ações de Thanos e restaurar a ordem no universo.
-                    </p>
+                    <p class="hero-synopsis">{{ destaque.sinopse }}</p>
                     <div class="hero-actions">
-                        <button class="btn btn-primary">
-                            <span class="icon">▶</span>
-                            Assistir Agora
-                        </button>
+                        <a [routerLink]="['/filme', createSlug(destaque.titulo)]" class="btn btn-primary">
+                          <span class="icon">▶</span>
+                          Assistir Agora
+                        </a>
                         <button class="btn btn-outline">
                             <span class="icon">⏯</span>
                             Ver Trailer
@@ -40,51 +38,30 @@
             </div>
         </section>
 
-      <!-- Movie Cards Row -->
-      <section class="movie-cards-row">
-        <!-- Movies Grid Section -->
-        <section class="movies-section">
-          <div class="container">
-            <div class="section-header">
-              <h2>Em Cartaz</h2>
-              <p>Descubra os últimos lançamentos do cinema</p>
+      <section class="movies-section" *ngIf="filmesEmCartaz$ | async as filmesEmCartaz">
+        <div class="section-header">
+          <h2>Em Cartaz</h2>
+          <p>Descubra os últimos lançamentos do cinema</p>
+        </div>
+        
+        <div class="movies-grid">
+          <!-- O *ngFor cria um card para cada filme na lista -->
+          <a *ngFor="let filme of filmesEmCartaz" [routerLink]="['/filme', createSlug(filme.titulo)]" class="movie-card">
+            <img [src]="filme.url_poster || 'https://placehold.co/150x225/1c1c1e/f0f0f0?text=' + filme.titulo" [alt]="filme.titulo" class="movie-poster">
+            <div class="movie-details">
+              <h3 class="movie-title">{{ filme.titulo }}</h3>
+              <p class="movie-info">{{ filme.duracao_min }} min • {{ filme.classificacao }}</p>
+              <p class="movie-genre">{{ formatarGeneros(filme.generos) }}</p>
             </div>
-            
-            <!-- Movie Card 1 -->
-            <div class="movie-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA2MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjMwIiB5PSI0NSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q29yaW5nYTwvdGV4dD4KPC9zdmc+" alt="Coringa">
-                <div class="movie-title">Coringa</div>
-                <div class="movie-info">8.5/10 • 122min</div>
-                <div class="movie-genre">Crime, Drama, Thriller</div>
-                <div class="movie-rating">★★★★☆ 8.5/10</div>
-                <div class="movie-session">Próxima sessão: 15:00</div>
-            </div>
-
-            <!-- Movie Card 2 -->
-            <div class="movie-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA2MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjMwIiB5PSI0NSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGFyYXNpdGE8L3RleHQ+Cjwvc3ZnPg==" alt="Parasita">
-                <div class="movie-title">Parasita</div>
-                <div class="movie-info">8.6/10 • 132min</div>
-                <div class="movie-genre">Comédia, Drama, Thriller</div>
-                <div class="movie-rating">★★★★★ 8.6/10</div>
-                <div class="movie-session">Próxima sessão: 16:00</div>
-            </div>
-
-            <!-- Movie Card 3 -->
-            <div class="movie-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA2MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjMwIiB5PSI0NSIgZmlsbD0iI2ZmZiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTkxNzwvdGV4dD4KPC9zdmc+" alt="1917">
-                <div class="movie-title">1917</div>
-                <div class="movie-info">8.3/10 • 119min</div>
-                <div class="movie-genre">Drama, Guerra</div>
-                <div class="movie-rating">★★★★☆ 8.3/10</div>
-                <div class="movie-session">Próxima sessão: 14:00</div>
-            </div>
-            
-          </div>
-        </section>
+          </a>
+        </div>
       </section>
     </div>
   </main>
+
+  <ng-template #loadingHero>
+    <div class="loading-placeholder">Carregando filme em destaque...</div>
+  </ng-template>
 
   <!-- Footer Links -->
   <footer class="footer">
