@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User, UserService } from '../../../service/user.service';
 import { AuthService } from '../../../service/auth.service';
@@ -27,7 +27,8 @@ export class UserProfileComponent implements OnInit{
     private userService: UserService,
     private authService: AuthService,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.profileForm = this.fb.group({
       nome: ['', Validators.required],
@@ -38,7 +39,7 @@ export class UserProfileComponent implements OnInit{
       senha: ['']
     });
   }
-  
+
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe({
       next: (user) => {
@@ -75,6 +76,8 @@ export class UserProfileComponent implements OnInit{
         this.successMessage = 'Perfil atualizado com sucesso!';
         this.isLoading = false;
         this.profileForm.get('senha')?.reset();
+
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.errorMessage = 'Erro ao atualizar o perfil. Por favor, tente novamente.';
