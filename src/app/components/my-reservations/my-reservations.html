@@ -1,0 +1,27 @@
+<div class="page-container">
+  <div class="reservas-card">
+    <h2>Minhas Reservas</h2>
+    <div class="reservas-list" *ngIf="reserva$ | async as reservas; else loading">
+      <div *ngIf="reservas.length > 0; else noReservas">
+        <div 
+          class="reserva-item" 
+          *ngFor="let reserva of reservas"
+          (click)="openReservaModal(reserva)">
+          <div class="reserva-info">
+            <span class="reserva-id">Reserva #{{ reserva.id }}</span>
+            <span class="reserva-data">{{ reserva.data_reserva | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="reserva-status">
+            <span class="status" [ngClass]="reserva.status">{{ reserva.status }}</span>
+          </div>
+        </div>
+      </div>
+      <ng-template #noReservas>
+        <p class="no-reservas-message">Você ainda não possui nenhuma reserva.</p>
+      </ng-template>
+    </div>
+    <ng-template #loading>
+      <p>Carregando suas reservas...</p>
+    </ng-template>
+  </div>
+</div>
