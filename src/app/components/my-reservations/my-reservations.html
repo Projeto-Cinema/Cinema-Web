@@ -25,3 +25,10 @@
     </ng-template>
   </div>
 </div>
+
+<app-reservation-details-modal
+  [isOpen]="isModalOpen"
+  [reserva]="selectedReserva"
+  (close)="closeReservaModal()"
+  (paymentSuccess)="onPaymentSuccess()">
+</app-reservation-details-modal>
