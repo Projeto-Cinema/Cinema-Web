@@ -19,7 +19,6 @@ export const routes: Routes = [
     {
         path: 'filme/:titulo',
         canActivate: [authGuard],
-        data: { RenderMode: RenderMode.Client },
         loadComponent: () => import(
             './components/movie-detail/movie-detail'
         ).then(m => m.MovieDetail)
@@ -27,7 +26,6 @@ export const routes: Routes = [
     {
         path: 'sessao/:id',
         canActivate: [authGuard],
-        data: { RenderMode: RenderMode.Client },
         loadComponent: () => import(
             './components/session-detail/session-detail'
         ).then(m => m.SessionDetail)

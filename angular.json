@@ -29,12 +29,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "prerender": false,
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "outputMode": "static"
           },
           "configurations": {
             "production": {
@@ -50,8 +45,7 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all",
-              "prerender": false
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
