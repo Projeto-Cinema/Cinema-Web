@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes), 
+    provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     importProvidersFrom(FormsModule)
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
 };
 
 export const AppConfig = {
-  apiUrl: 'http://localhost:8000/api/v1',
+  apiUrl: 'https://api-cinema-python.onrender.com/api/v1',
   endpoints: {
     users: '/Users/',
     login: '/auth/login/',
