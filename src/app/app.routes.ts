@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './service/auth-guard';
 import { HomeComponent } from './components/home-component/home-component';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,7 @@ export const routes: Routes = [
     {
         path: 'filme/:titulo',
         canActivate: [authGuard],
+        data: { RenderMode: 'client-side' },
         loadComponent: () => import(
             './components/movie-detail/movie-detail'
         ).then(m => m.MovieDetail)
@@ -25,6 +27,7 @@ export const routes: Routes = [
     {
         path: 'sessao/:id',
         canActivate: [authGuard],
+        data: { RenderMode: 'client-side' },
         loadComponent: () => import(
             './components/session-detail/session-detail'
         ).then(m => m.SessionDetail)
